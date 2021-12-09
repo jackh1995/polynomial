@@ -1,0 +1,1 @@
+The class Polynomial implement operations for univariate polynomials.
