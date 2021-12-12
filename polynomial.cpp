@@ -1,6 +1,11 @@
 #include <cmath>
 #include "polynomial.h"
 
+
+Polynomial::Polynomial() : head(nullptr) {}
+
+Polynomial::Polynomial(const char* s) : head(nullptr) { parse(s); }
+
 Polynomial::Polynomial(const Polynomial &other) : head(nullptr) {
     Node *other_current = other.head;
     while (other_current) {
@@ -37,7 +42,7 @@ Polynomial& Polynomial::operator=(const Polynomial &other) {
 }
 
 Polynomial Polynomial::operator+(const Polynomial &p) const {
-    Polynomial result;
+    Polynomial result = *this;
     Node *current = p.head;
     while (current) {
         result.insert(current->coeff, current->power);
@@ -103,6 +108,11 @@ Polynomial Polynomial::operator^(int power) const {
         result = result * (*this);
     }
     return result;
+}
+
+Polynomial &Polynomial::operator^=(int power) {
+    *this = *this ^ power;
+    return *this;
 }
 
 double Polynomial::operator()(double x) const {

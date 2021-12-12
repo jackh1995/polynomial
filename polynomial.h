@@ -1,11 +1,17 @@
-#include <iostream>
 #pragma once
+
+#include <iostream>
 using namespace std;
 
+class Polynomial;
+
 class Node {
+friend class Polynomial;
+friend ostream &operator<<(ostream &os, const Polynomial &p);
 public:
     Node() : next(nullptr), coeff(0.0), power(0) {}
     Node(double _coeff, int _power) : next(nullptr), coeff(_coeff), power(_power) {}
+private:
     Node *next;
     double coeff;
     int power;
@@ -14,8 +20,8 @@ public:
 class Polynomial {
 public:
     // Constructors
-    Polynomial() : head(nullptr) {}
-    Polynomial(const char* s) : head(nullptr) { parse(s); }
+    Polynomial();
+    Polynomial(const char* s);
     // Rule of three
     Polynomial(const Polynomial &other);
     ~Polynomial();
@@ -33,6 +39,7 @@ public:
     Polynomial &operator*=(const Polynomial &p);
     // Power
     Polynomial operator^(int power) const;
+    Polynomial &operator^=(int power);
     // Evaluation
     double operator()(double x) const;
     int getDegree(void) const;
