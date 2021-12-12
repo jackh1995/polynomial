@@ -1,9 +1,9 @@
 #include <iostream>
-#include "polynomial.cpp"
+#include "polynomial.h"
 using namespace std;
 
 int main() {
-    Polynomial p("2x^3 + -3x^2 + 4x^1 + 5x^0");
-    cout << (p^5) << endl;
+    Polynomial p("1x^1 + 1x^0");
+    cout << (p^4) << endl;
     return 0;
 }

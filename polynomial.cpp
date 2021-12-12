@@ -1,3 +1,4 @@
+#include <cmath>
 #include "polynomial.h"
 
 Polynomial::Polynomial(const Polynomial &other) : head(nullptr) {
@@ -128,14 +129,14 @@ double Polynomial::getLeadingCoeff(void) const {
         return 0;
 }
 
-void Polynomial::parse(string s) {
+void Polynomial::parse(const char* s) {
     string coeff;
     string power;
     bool isCoeff = true;
     bool isPower = false;
     bool isnegative = false;
-    for (size_t idx = 0; idx != s.length(); ++idx) {
-        char c = s[idx];
+    for (const char* iter = s; *iter != '\0'; iter++) {
+        char c = *iter;
         if (!isspace(c)) {
             if (c == '-') {
                 isnegative = true;
@@ -173,6 +174,7 @@ void Polynomial::parse(string s) {
         insert(stod(coeff), atoi(power.c_str()));
     return;
 }
+
 void Polynomial::insert(double c, int p) {
     Node *tmp = new Node(c, p);
     if (!head) {

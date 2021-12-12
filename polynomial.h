@@ -1,8 +1,5 @@
-#pragma once
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
 #include <iostream>
+#pragma once
 using namespace std;
 
 class Node {
@@ -18,8 +15,7 @@ class Polynomial {
 public:
     // Constructors
     Polynomial() : head(nullptr) {}
-    Polynomial(const string s) : head(nullptr) { parse(s); }
-    Polynomial(const char *s) : head(nullptr) { parse(s); }
+    Polynomial(const char* s) : head(nullptr) { parse(s); }
     // Rule of three
     Polynomial(const Polynomial &other);
     ~Polynomial();
@@ -45,6 +41,8 @@ public:
     friend ostream &operator<<(ostream &os, const Polynomial &p);
 private:
     Node *head;
-    void parse(string s);
+    void parse(const char* s);
     void insert(double c, int p);
 };
+
+Polynomial operator*(double scalar, const Polynomial &p);
