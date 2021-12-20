@@ -1,10 +1,9 @@
 #include <cmath>
 #include "polynomial.h"
 
-
 Polynomial::Polynomial() : head(nullptr) {}
 
-Polynomial::Polynomial(const char* s) : head(nullptr) { parse(s); }
+Polynomial::Polynomial(string s) : head(nullptr) { parse(s); }
 
 Polynomial::Polynomial(const Polynomial &other) : head(nullptr) {
     Node *other_current = other.head;
@@ -81,6 +80,11 @@ Polynomial Polynomial::operator*(double scalar) const {
     return result;
 }
 
+Polynomial& Polynomial::operator*=(int scalar) {
+    *this = *this * scalar;
+    return *this;
+}
+
 Polynomial Polynomial::operator*(const Polynomial &p) const {
     Polynomial result;
     Node *this_current = head;
@@ -125,28 +129,14 @@ double Polynomial::operator()(double x) const {
     return result;
 }
 
-int Polynomial::getDegree(void) const {
-    if (head)
-        return head->power;
-    else
-        return 0;
-}
-
-double Polynomial::getLeadingCoeff(void) const {
-    if (head)
-        return head->coeff;
-    else
-        return 0;
-}
-
-void Polynomial::parse(const char* s) {
+void Polynomial::parse(string s) {
     string coeff;
     string power;
     bool isCoeff = true;
     bool isPower = false;
     bool isnegative = false;
-    for (const char* iter = s; *iter != '\0'; iter++) {
-        char c = *iter;
+    for (size_t idx=0; idx!=s.length(); ++idx) {
+        char c = s[idx];
         if (!isspace(c)) {
             if (c == '-') {
                 isnegative = true;
@@ -215,26 +205,31 @@ void Polynomial::insert(double c, int p) {
                 }
             }
         } else {
-            tmp->next = current->next;
-            current->next = tmp;
+            tmp->next = current;
+            pre->next = tmp;
         }
     } else if (current->power > p && !current->next) {
         current->next = tmp;
     } else { // current->power <= p && !current->next
-        current->coeff += c;
-        if (!current->coeff) {
-            if (pre) {
-                pre->next = current->next;
-                delete current;
-            } else {
-                head = current->next;
-                delete current;
+        if (current->power == p) {
+            current->coeff += c;
+            if (!current->coeff) {
+                if (pre) {
+                    pre->next = current->next;
+                    delete current;
+                } else {
+                    head = current->next;
+                    delete current;
+                }
             }
+        } else {
+            pre->next = tmp;
+            tmp->next = current;
         }
     }
 }
 
-Polynomial operator*(double scalar, const Polynomial &p) {
+Polynomial operator*(int scalar, const Polynomial &p) {
     return p * scalar;
 }
 

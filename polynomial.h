@@ -21,7 +21,7 @@ class Polynomial {
 public:
     // Constructors
     Polynomial();
-    Polynomial(const char* s);
+    Polynomial(string s);
     // Rule of three
     Polynomial(const Polynomial &other);
     ~Polynomial();
@@ -34,6 +34,8 @@ public:
     Polynomial &operator-=(const Polynomial &p);
     // Scaling
     Polynomial operator*(double scalar) const;
+    Polynomial& operator*=(int scalar);
+    friend Polynomial operator*(int scalar, const Polynomial &p);
     // Multiplication
     Polynomial operator*(const Polynomial &p) const;
     Polynomial &operator*=(const Polynomial &p);
@@ -48,8 +50,6 @@ public:
     friend ostream &operator<<(ostream &os, const Polynomial &p);
 private:
     Node *head;
-    void parse(const char* s);
+    void parse(string s);
     void insert(double c, int p);
 };
-
-Polynomial operator*(double scalar, const Polynomial &p);
